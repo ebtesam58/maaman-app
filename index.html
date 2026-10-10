@@ -1,0 +1,1978 @@
+<!<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF7F2">
+<title>مَأْمَن | مساحتك الآمنة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#FAF7F2; --soft:#F1EAE0; --text:#3D352E; --muted:#81766B;
+  --rose:#D8A7A1; --rose-deep:#BD837D; --olive:#8A9A86;
+  --card:rgba(255,255,255,.69); --border:rgba(104,86,70,.13);
+  --shadow:0 22px 70px rgba(83,65,48,.09); --radius:28px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; min-height:100dvh; overflow-x:hidden; background:var(--bg);
+  color:var(--text); font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;
+  transition:background .4s,color .4s;
+}
+button,input,textarea { font:inherit; }
+button { color:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+button:focus-visible,input:focus-visible,textarea:focus-visible {
+  outline:2px solid var(--rose-deep); outline-offset:4px;
+}
+button:disabled { opacity:.5; cursor:wait; }
+button:active { transform:scale(.98); }
+
+body.night {
+  --bg:#242723; --soft:#30332D; --text:#F0EAE0; --muted:#B5ADA1;
+  --card:rgba(53,57,50,.86); --border:rgba(235,225,210,.12);
+  --shadow:0 22px 70px rgba(0,0,0,.2);
+}
+.ambient {
+  position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
+  background:radial-gradient(ellipse at 15% 18%,#E8C9BE55,transparent 38%),
+  radial-gradient(ellipse at 85% 75%,#C6D3BE55,transparent 36%),
+  linear-gradient(145deg,var(--bg),var(--soft));
+}
+body.night .ambient {
+  background:radial-gradient(ellipse at 15% 18%,#76534C30,transparent 38%),
+  radial-gradient(ellipse at 85% 75%,#52644D30,transparent 36%),
+  linear-gradient(145deg,var(--bg),var(--soft));
+}
+.haze {
+  position:absolute; width:45vw; height:45vw; min-width:250px; min-height:250px;
+  border-radius:50%; filter:blur(65px); opacity:.28; background:#E4BEB2;
+  top:-18%; right:-12%; animation:float 20s ease-in-out infinite alternate;
+}
+.haze.two { background:#BBCAB3; top:55%; right:55%; animation-duration:25s; animation-delay:-8s; }
+.haze.three { background:#E5D4C1; top:65%; right:-15%; animation-duration:22s; animation-delay:-5s; }
+@keyframes float { to { transform:translate(-7vw,8vh) scale(1.16); } }
+
+.app {
+  width:min(100%,1080px); min-height:100dvh; margin:auto;
+  padding:18px clamp(16px,4vw,42px) 30px;
+  display:flex; flex-direction:column;
+}
+.topbar {
+  min-height:54px; display:flex; align-items:center; justify-content:space-between;
+  gap:12px; position:relative; z-index:3;
+}
+.brand { display:flex; align-items:center; gap:10px; border:0; background:none; padding:4px 0; }
+.brand-symbol {
+  width:36px; height:36px; display:grid; place-items:center;
+  border-radius:15px 15px 15px 5px;
+  background:linear-gradient(145deg,#E8C9BE,#B7C5AE); color:#fff;
+  box-shadow:0 8px 20px #9c82702a;
+}
+.brand-symbol svg { width:24px; }
+.brand-name { font-size:20px; font-weight:600; }
+.top-actions { display:flex; gap:8px; }
+.icon-btn {
+  width:42px; height:42px; border:1px solid var(--border); background:var(--card);
+  border-radius:50%; display:grid; place-items:center; transition:transform .25s,background .25s;
+}
+.icon-btn:hover { transform:translateY(-2px); }
+.icon-btn svg { width:19px; height:19px; }
+.page { display:none; flex:1; width:100%; animation:arrive .55s cubic-bezier(.2,.7,.2,1) both; }
+.page.active { display:flex; flex-direction:column; }
+@keyframes arrive { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.center-page { align-items:center; justify-content:center; text-align:center; }
+.eyebrow { font-size:12px; color:var(--muted); letter-spacing:.04em; margin:0 0 12px; }
+h1,h2,h3,p { margin-top:0; }
+h1 { font-size:clamp(32px,6vw,56px); line-height:1.45; letter-spacing:-.035em; font-weight:500; margin-bottom:12px; }
+h2 { font-size:clamp(25px,4vw,35px); font-weight:500; line-height:1.5; }
+p { line-height:1.95; }
+.subtitle { max-width:470px; color:var(--muted); font-size:16px; line-height:2; margin:0 auto; }
+.primary,.secondary {
+  min-height:50px; border-radius:999px; padding:12px 24px;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  transition:transform .25s,box-shadow .25s,background .25s;
+}
+.primary { color:#fff; border:0; background:linear-gradient(120deg,var(--rose-deep),#C9978E); box-shadow:0 10px 25px #bd837d2b; }
+.primary:hover { transform:translateY(-2px); box-shadow:0 14px 30px #bd837d3a; }
+.secondary { background:var(--card); border:1px solid var(--border); }
+.secondary:hover { background:var(--soft); }
+.actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:27px; }
+.small-note { font-size:12px; color:var(--muted); line-height:1.8; margin-top:20px; }
+
+.intro-content { padding:48px 0; }
+.intro-mark { width:132px; height:132px; margin:0 auto 28px; position:relative; display:grid; place-items:center; animation:logo-in 1.1s cubic-bezier(.16,1,.3,1) both; }
+.intro-mark:before,.intro-mark:after { content:""; position:absolute; inset:0; border:1px solid #C48B8547; border-radius:48% 52% 56% 44%; animation:orbit 12s linear infinite; }
+.intro-mark:after { inset:12px; border-color:#8A9A864d; transform:rotate(35deg); animation-direction:reverse; animation-duration:16s; }
+.logo-core { width:82px; height:82px; display:grid; place-items:center; border-radius:45% 55% 50% 50%; background:linear-gradient(145deg,#EAD2C9,#C4D0BB); box-shadow:0 12px 35px #9e88702b; }
+.logo-core svg { width:44px; height:44px; }
+@keyframes orbit { to { transform:rotate(360deg); } }
+@keyframes logo-in { from { opacity:0; transform:scale(.65) rotate(-12deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+.intro-content h1 { animation:arrive .8s .2s both; }
+.intro-content .subtitle { animation:arrive .8s .35s both; }
+.intro-content .actions { animation:arrive .8s .5s both; }
+
+.section-heading { text-align:center; padding:clamp(35px,8vh,80px) 0 30px; }
+.needs-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; width:min(100%,690px); margin:0 auto; }
+.need-card {
+  text-align:right; padding:22px; min-height:145px; border:1px solid var(--border);
+  border-radius:24px; background:var(--card); box-shadow:0 8px 30px #59463308;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.need-card:hover { transform:translateY(-4px); border-color:#C48B8573; box-shadow:var(--shadow); }
+.need-emoji { width:43px; height:43px; border-radius:15px; display:grid; place-items:center; background:var(--soft); font-size:22px; margin-bottom:14px; }
+.need-card strong { display:block; font-weight:600; font-size:17px; margin-bottom:4px; }
+.need-card span:last-child { color:var(--muted); font-size:13px; line-height:1.8; }
+.back-link { border:0; background:none; color:var(--muted); padding:12px; display:inline-flex; align-items:center; gap:8px; align-self:flex-start; }
+
+.confirm-card { width:min(100%,560px); margin:auto; padding:clamp(24px,5vw,45px); border:1px solid var(--border); border-radius:32px; background:var(--card); box-shadow:var(--shadow); text-align:center; }
+.confirm-symbol { width:74px; height:74px; margin:0 auto 18px; display:grid; place-items:center; background:var(--soft); border-radius:26px; font-size:34px; }
+
+.chat-layout { width:min(100%,760px); margin:0 auto; display:flex; flex-direction:column; flex:1; }
+.chat-head { text-align:center; padding:15px 0 4px; }
+.chat-head h2 { margin:0; font-size:24px; }
+.chat-head p { font-size:13px; color:var(--muted); margin:4px 0 0; }
+.voice-area { padding:14px 0 12px; display:flex; flex-direction:column; align-items:center; }
+.voice-wrapper { position:relative; width:150px; height:150px; display:grid; place-items:center; margin:0 auto 8px; }
+.voice-wrapper:before,.voice-wrapper:after { content:""; position:absolute; inset:12px; border:1px solid #C48B8548; border-radius:50%; animation:breathe 4s ease-in-out infinite; }
+.voice-wrapper:after { inset:0; border-color:#8A9A8645; animation-delay:-2s; }
+@keyframes breathe { 0%,100% { transform:scale(.91); opacity:.45; } 50% { transform:scale(1.08); opacity:.95; } }
+.voice-orb { position:relative; width:94px; height:94px; z-index:1; border:0; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 32% 25%,#F3DCD2,#D7AAA2 53%,#B98A81); box-shadow:inset -8px -10px 22px #8c5b5530,0 10px 35px #c48b8535; transition:background .5s,box-shadow .5s,transform .3s; }
+.voice-orb svg { width:30px; height:30px; color:white; }
+.wave-lines { position:absolute; inset:-14px; border-radius:50%; pointer-events:none; }
+.wave-lines i { position:absolute; inset:0; border:1px solid #C48B8555; border-radius:46% 54% 49% 51%; animation:wave 7s linear infinite; }
+.wave-lines i:nth-child(2) { inset:6px; animation-duration:5s; animation-direction:reverse; }
+.wave-lines i:nth-child(3) { inset:-6px; animation-duration:9s; }
+@keyframes wave { to { transform:rotate(360deg); } }
+.voice-wrapper[data-state="listening"] .voice-orb { background:radial-gradient(circle at 30% 25%,#F0DDD1,#A5B69D 70%); box-shadow:0 0 45px #9caf8c75; animation:listen 1.6s ease-in-out infinite; }
+.voice-wrapper[data-state="thinking"] .voice-orb { background:radial-gradient(circle at 30% 25%,#F0D7D0,#C6A2A0 68%); animation:think 1.8s ease-in-out infinite; }
+.voice-wrapper[data-state="speaking"] .voice-orb { background:radial-gradient(circle at 30% 25%,#F4DDD1,#B5C4AC 70%); animation:speak .9s ease-in-out infinite alternate; }
+.voice-wrapper[data-state="listening"] .wave-lines i { animation-duration:1.6s; }
+.voice-wrapper[data-state="speaking"] .wave-lines i { animation-duration:1.2s; }
+@keyframes listen { 50% { transform:scale(1.08); } }
+@keyframes think { 50% { transform:scale(.94) rotate(8deg); } }
+@keyframes speak { to { transform:scale(1.09); } }
+.voice-status { font-size:13px; color:var(--muted); min-height:25px; text-align:center; }
+.messages { flex:1; min-height:130px; max-height:35dvh; overflow:auto; padding:14px 2px 20px; display:flex; flex-direction:column; gap:13px; scrollbar-width:thin; }
+.message { width:fit-content; max-width:min(90%,560px); padding:14px 17px; line-height:1.95; font-size:15px; white-space:pre-wrap; animation:arrive .3s both; }
+.message.ai { align-self:flex-start; background:var(--card); border:1px solid var(--border); border-radius:22px 22px 22px 6px; }
+.message.user { align-self:flex-end; background:#DCC0B7; color:#493A33; border-radius:22px 22px 6px 22px; }
+.quick-actions { display:flex; flex-wrap:wrap; gap:8px; padding:0 0 12px; }
+.quick-actions button { background:transparent; border:1px solid var(--border); border-radius:99px; padding:8px 13px; font-size:12px; color:var(--muted); }
+.composer { display:flex; align-items:flex-end; gap:9px; padding:9px; border:1px solid var(--border); border-radius:25px; background:var(--card); box-shadow:0 10px 35px #59463309; }
+.composer textarea { min-width:0; flex:1; resize:none; max-height:120px; min-height:42px; border:0; outline:0; background:transparent; color:var(--text); padding:10px 8px; line-height:1.7; }
+.composer textarea:focus { outline:0; }
+.composer textarea::placeholder { color:var(--muted); }
+.send-btn { width:43px; height:43px; flex:0 0 43px; border:0; border-radius:50%; background:var(--rose-deep); color:white; display:grid; place-items:center; }
+.send-btn svg { width:20px; height:20px; }
+.chat-footer { display:flex; justify-content:space-between; gap:12px; padding-top:12px; }
+.text-btn { border:0; background:none; color:var(--muted); font-size:12px; padding:8px 0; }
+.text-btn:hover { color:var(--text); }
+
+.contact-wrap { width:min(100%,650px); margin:auto; padding:35px 0; }
+.contact-card { padding:clamp(22px,5vw,42px); border:1px solid var(--border); border-radius:32px; background:var(--card); box-shadow:var(--shadow); }
+.contact-card h2 { margin-bottom:8px; }
+.contact-card .subtitle { margin:0 0 25px; text-align:right; font-size:14px; }
+.contact-card label { display:block; font-size:13px; margin:18px 0 8px; }
+.contact-card input,.contact-card textarea { width:100%; border:1px solid var(--border); border-radius:16px; background:var(--bg); color:var(--text); padding:14px 15px; outline:0; }
+.contact-card textarea { min-height:180px; resize:vertical; line-height:1.9; }
+.contact-card input:focus,.contact-card textarea:focus { border-color:var(--rose-deep); }
+.notice { padding:12px 14px; border-radius:14px; background:var(--soft); color:var(--muted); font-size:12px; line-height:1.9; margin-top:18px; }
+.footer { text-align:center; padding-top:24px; color:var(--muted); font-size:11px; }
+
+.closing-card { width:min(100%,580px); margin:auto; text-align:center; padding:40px 10px; }
+.closing-mark { font-size:35px; margin-bottom:16px; }
+.signature { color:var(--rose-deep); font-size:20px; margin-top:25px; }
+.toast { position:fixed; bottom:20px; left:50%; transform:translate(-50%,20px); opacity:0; pointer-events:none; z-index:40; background:var(--text); color:var(--bg); padding:12px 18px; border-radius:99px; font-size:13px; width:max-content; max-width:90%; box-shadow:var(--shadow); transition:.3s; }
+.toast.show { opacity:1; transform:translate(-50%,0); }
+.modal-backdrop { position:fixed; inset:0; z-index:15; display:none; place-items:center; padding:18px; background:#30271f70; backdrop-filter:blur(8px); }
+.modal-backdrop.show { display:grid; }
+.modal { width:min(100%,460px); padding:26px; border-radius:26px; background:var(--bg); box-shadow:var(--shadow); }
+.modal h3 { margin-bottom:8px; }
+.modal p { color:var(--muted); font-size:13px; line-height:1.9; }
+.modal input { width:100%; padding:13px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin:7px 0 15px; }
+.modal-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+@media(max-width:560px) {
+  .app { padding:12px 16px 22px; }
+  .needs-grid { gap:10px; }
+  .need-card { min-height:137px; padding:15px; border-radius:20px; }
+  .need-card strong { font-size:15px; }
+  .need-card span:last-child { font-size:12px; }
+  .voice-wrapper { transform:scale(.9); margin-top:-3px; margin-bottom:0; }
+  .messages { max-height:31dvh; }
+  .chat-head h2 { font-size:21px; }
+  .intro-content { padding:35px 0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
+}
+</style>
+</head>
+
+<body>
+<div class="ambient" aria-hidden="true">
+  <div class="haze"></div><div class="haze two"></div><div class="haze three"></div>
+</div>
+
+<div class="app">
+<header class="topbar">
+  <button class="brand" onclick="goHome()" aria-label="العودة إلى مَأْمَن">
+    <span class="brand-symbol">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 29C12 25 10 17 15 10C23 12 28 19 20 29Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M13 28C18 23 22 20 27 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="brand-name">مَأْمَن</span>
+  </button>
+  <div class="top-actions">
+    <button class="icon-btn" onclick="toggleNight()" aria-label="تبديل الوضع الليلي" title="الوضع الليلي">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5Z"/></svg>
+    </button>
+    <button class="icon-btn" onclick="showPage('contact')" aria-label="التواصل" title="التواصل">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.5A2.5 2.5 0 0 1 4 14Z"/><path d="M8 8h8M8 12h5"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="page-intro" class="page center-page active">
+  <div class="intro-content">
+    <div class="intro-mark" aria-hidden="true"><div class="logo-core">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M24 37C12 31 11 20 18 11C29 14 35 24 24 37Z" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M15 36C22 28 27 23 34 19" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </div></div>
+    <p class="eyebrow">مساحتك، مثل ما أنتِ</p>
+    <h1>مَأْمَن</h1>
+    <p class="subtitle">مساحة آمنة لك، كما أنتِ.<br>ما يحتاج ترتبين كلامك. احكي مثل ما أنتِ.</p>
+    <div class="actions"><button class="primary" onclick="showPage('home')">تعالي نحكي <span aria-hidden="true">←</span></button></div>
+    <p class="small-note">خذي وقتك. ما فيه طريقة صح أو غلط للكلام هنا.</p>
+  </div>
+</main>
+
+<section id="page-home" class="page center-page">
+  <div class="intro-content">
+    <p class="eyebrow">أهلًا بك في مَأْمَن</p>
+    <h1>وش بخاطرك اليوم؟</h1>
+    <p class="subtitle">ما يحتاج ترتبين كلامك. احكي مثل ما أنتِ.</p>
+    <p id="timeGreeting" class="small-note" aria-live="polite"></p>
+    <div class="actions">
+      <button class="primary" onclick="showPage('needs')">تعال نحكي</button>
+      <button class="secondary" onclick="showPage('contact')">تواصلي معنا</button>
+    </div>
+    <p class="small-note">مو لازم تعرفين من وين تبدئين.</p>
+  </div>
+</section>
+
+<section id="page-needs" class="page">
+  <button class="back-link" onclick="showPage('home')">→ رجوع</button>
+  <div class="section-heading">
+    <p class="eyebrow">على راحتك</p><h2>وش تحتاجين مني اليوم؟</h2>
+    <p class="subtitle">اختاري اللي يشبه احتياجك، وتقدرين تغيرين رأيك بأي وقت.</p>
+  </div>
+  <div class="needs-grid">
+    <button class="need-card" onclick="chooseNeed('listen')"><span class="need-emoji">🤍</span><strong>اسمعني</strong><span>أبي أتكلم، بدون حلول الحين.</span></button>
+    <button class="need-card" onclick="chooseNeed('understand')"><span class="need-emoji">🧠</span><strong>خلنا نفهمه</strong><span>أبي أفهم شعوري واللي يصير داخلي.</span></button>
+    <button class="need-card" onclick="chooseNeed('help')"><span class="need-emoji">🌱</span><strong>ساعدني</strong><span>أبي أفكر بخطوة ممكن تساعدني.</span></button>
+    <button class="need-card" onclick="chooseNeed('unsure')"><span class="need-emoji">🫂</span><strong>ما أدري</strong><span>حتى احتياجي مو واضح لي الحين.</span></button>
+  </div>
+  <div class="footer">ما فيه اختيار غلط.</div>
+</section>
+
+<section id="page-confirm" class="page">
+  <button class="back-link" onclick="showPage('needs')">→ تغيير الاختيار</button>
+  <div class="confirm-card">
+    <div class="confirm-symbol" id="confirm-emoji">🤍</div>
+    <p class="eyebrow">خلينا نبدأ على راحتك</p>
+    <h2 id="confirm-title">اسمعني</h2>
+    <p class="subtitle" id="confirm-copy">أنا أسمعك. خذي وقتك وابدئي من المكان اللي يناسبك.</p>
+    <div class="actions">
+      <button class="primary" onclick="startConversation()">أنا جاهزة</button>
+      <button class="secondary" onclick="showPage('needs')">أختار شيء ثاني</button>
+    </div>
+  </div>
+</section>
+
+<section id="page-chat" class="page">
+  <button class="back-link" onclick="endSession()">← إنهاء الجلسة</button>
+  <div class="chat-layout">
+    <div class="chat-head"><h2>أنا أسمعك</h2><p>خذي وقتك، ما يحتاج تستعجلين.</p></div>
+    <div class="voice-area">
+      <div class="voice-wrapper" id="voiceWrapper" data-state="idle">
+        <div class="wave-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+        <button class="voice-orb" id="voiceButton" onclick="toggleListening()" aria-label="ابدئي التحدث">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M9 21h6"/></svg>
+        </button>
+      </div>
+      <div id="voiceStatus" class="voice-status" aria-live="polite">اضغطي الدائرة وتكلمي، أو اكتبي تحت.</div>
+    </div>
+    <div id="messages" class="messages" aria-live="polite"></div>
+    <div class="quick-actions">
+      <button type="button" onclick="clarify()">مو هذا قصدي</button>
+      <button type="button" onclick="setMode('listen')">أبيك تسمعيني بس</button>
+      <button type="button" onclick="setMode('help')">خلنا نفكر بحل</button>
+    </div>
+    <form class="composer" id="chatForm">
+      <textarea id="messageInput" rows="1" placeholder="احكي لي اللي بخاطرك..." aria-label="اكتبي رسالتك"></textarea>
+      <button class="send-btn" type="submit" aria-label="إرسال الرسالة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+    </form>
+    <div class="chat-footer">
+      <button class="text-btn" onclick="toggleVoiceReply()" id="voiceReplyBtn">🔊 الرد الصوتي: مفعّل</button>
+      <button class="text-btn" onclick="openApiModal()">إعداد الاتصال بالذكاء الاصطناعي</button>
+    </div>
+  </div>
+</section>
+
+<section id="page-contact" class="page">
+  <button class="back-link" onclick="goBackFromContact()">→ رجوع</button>
+  <div class="contact-wrap">
+    <div class="contact-card">
+      <p class="eyebrow">مساحة لك أيضًا</p>
+      <h2>ودّك تقولين لنا شيء؟</h2>
+      <p class="subtitle">اقتراح، فكرة، أو حتى ملاحظة صغيرة. اكتبي بالطريقة اللي تريحك.</p>
+      <form id="contactForm">
+        <label for="contactSubject">وش حابة تسمّين رسالتك؟ (اختياري)</label>
+        <input id="contactSubject" maxlength="100" placeholder="فكرة، ملاحظة، أو شيء بخاطري...">
+        <label for="contactMessage">خذي راحتك بالكلام</label>
+        <textarea id="contactMessage" maxlength="5000" placeholder="اكتبي هنا، ما يحتاج ترتبين كل شيء من البداية..."></textarea>
+        <div class="actions" style="justify-content:flex-start">
+          <button class="primary" id="contactSendButton" type="submit">إرسال الرسالة</button>
+          <button class="secondary" type="button" onclick="saveContactDraft()">حفظ المسودة</button>
+        </div>
+      </form>
+      <div class="notice">عند إرسال الرسالة، يحاول مَأْمَن توصيلها عبر خدمة FormSubmit إلى بريد التواصل. لا تكتبي كلمات مرور أو معلومات شديدة الحساسية. يمكنك حفظ المسودة على هذا الجهاز أيضًا.</div>
+    </div>
+  </div>
+</section>
+
+<section id="page-ending" class="page center-page">
+  <div class="closing-card">
+    <div class="closing-mark">☁️</div>
+    <p class="eyebrow">قبل ما تروحين</p>
+    <h2>وش الشيء اللي تبغين تأخذينه معك من كلامنا اليوم؟</h2>
+    <p class="subtitle">مو لازم تطلعين من هنا وأنتِ حالّة كل شيء. أحيانًا يكفي إنك وقفتي شوي وقلتي اللي داخلك. خذي معك اللي تحتاجينه اليوم… واتركي الباقي هنا.</p>
+    <textarea id="takeaway" placeholder="جملة صغيرة تبغين تتذكرينها..." style="width:min(100%,470px);min-height:90px;margin-top:20px;padding:14px;border:1px solid var(--border);border-radius:18px;background:var(--card);color:var(--text);resize:vertical"></textarea>
+    <div class="actions">
+      <button class="primary" onclick="saveTakeaway()">أحتفظ فيها</button>
+      <button class="secondary" onclick="showPage('home')">أرجع لمساحتي</button>
+    </div>
+    <p class="small-note">بهدوء، خطوة بخطوة.</p>
+    <div class="signature">إبتسام</div>
+  </div>
+</section>
+
+<div class="footer">مَأْمَن · مساحة للتفكير والفضفضة وفهم الذات</div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal-backdrop" id="apiModal" role="dialog" aria-modal="true" aria-labelledby="apiTitle">
+  <div class="modal">
+    <h3 id="apiTitle">إعداد الاتصال بالذكاء الاصطناعي</h3>
+    <p>مأمن متصل تلقائياً بالخادم الآمن السحابي. يمكنك إدخال مفتاح شخصي إذا رغبتِ بالتخصيص.</p>
+    <label for="apiKey">مفتاح Gemini API (اختياري)</label>
+    <input id="apiKey" type="password" autocomplete="off" placeholder="أدخلي المفتاح هنا">
+    <div class="modal-actions">
+      <button class="primary" onclick="saveApiKey()">حفظ على هذا الجهاز</button>
+      <button class="secondary" onclick="closeApiModal()">إلغاء</button>
+      <button class="text-btn" onclick="removeApiKey()">حذف المفتاح</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const STORAGE = {
+  memories: "maaman_memories_v2",
+  takeaways: "maaman_takeaways",
+  night: "maaman_night",
+  apiKey: "maaman_api_key",
+  contactSubject: "maaman_contact_subject",
+  contactMessage: "maaman_contact_message"
+};
+
+const CONTACT_ENDPOINT = "https://formsubmit.co/ajax/ebtsamsiko@gmail.com";
+
+function readStore(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
+const app = {
+  page: "intro",
+  need: "unsure",
+  mode: "listen",
+  history: [],
+  apiKey: localStorage.getItem(STORAGE.apiKey) || "",
+  night: localStorage.getItem(STORAGE.night) === "true",
+  voiceReply: true,
+  busy: false,
+  recognition: null,
+  lastPage: "home",
+  correcting: false,
+  memoryEnabled: localStorage.getItem("maaman_memory_enabled") === "true",
+  memories: readStore(STORAGE.memories, []),
+  sessionStarted: false,
+  sessionId: null,
+  sessionNotes: [],
+  requestedReflection: "",
+  lastAssistantAnswer: ""
+};
+
+const needInfo = {
+  listen: {
+    emoji:"🤍", title:"اسمعني",
+    copy:"ما راح أستعجل بالنصائح. خذي وقتك، وقولي اللي بخاطرك بالطريقة اللي تقدرين عليها.",
+    first:"أنا أسمعك. خذي وقتك… وش ودّك تقولين؟"
+  },
+  understand: {
+    emoji:"🧠", title:"خلنا نفهمه",
+    copy:"بنمشي شوي شوي ونحاول نفهم الشعور مع بعض، بدون ما نفترض إننا عرفنا السبب من البداية.",
+    first:"خلينا نبدأ من هنا… وش أكثر شيء شاغل بالك هالفترة؟"
+  },
+  help: {
+    emoji:"🌱", title:"ساعدني",
+    copy:"بنفهم الموقف أول، وبعدها نفكر بخطوة صغيرة تناسبك بدل ما نرمي عليك حلول كثيرة.",
+    first:"أنا معك. احكي لي وش صار، ونشوفه سوا قبل ما نفكر وش ممكن تسوين."
+  },
+  unsure: {
+    emoji:"🫂", title:"ما أدري",
+    copy:"مو لازم تعرفين وش تحتاجين الحين. نقدر نبدأ من أي شيء حاضر في بالك.",
+    first:"عادي لو ما تعرفين من وين تبدئين. وش أقرب شيء تحسين فيه الحين، حتى لو مو واضح؟"
+  }
+};
+
+if (app.night) document.body.classList.add("night");
+if (app.apiKey) document.getElementById("apiKey").value = app.apiKey;
+
+function updateTimeGreeting() {
+  const greeting = document.getElementById("timeGreeting");
+  if (!greeting) return;
+
+  const hour = new Date().getHours();
+
+  if (hour >= 5 && hour < 12) {
+    greeting.textContent = "صباحك هدوء يا جميلة 🤍 مو لازم تبدئين يومك وأنتِ مرتبة كل شيء. خذي لحظة واسألي نفسك: وش أحتاج اليوم؟";
+  } else if (hour >= 12 && hour < 17) {
+    greeting.textContent = "وسط زحمة يومك، تستحقين لحظة لك 🌱 خذي نفسًا، وخلينا نفهم وش بخاطرك بدون ضغط أو أحكام.";
+  } else if (hour >= 17 && hour < 23) {
+    greeting.textContent = "مساءك أهدأ يا جميلة 🫂 مو لازم تحملين كل شيء معك لنهاية اليوم. هنا تقدرين تتكلمين على راحتك.";
+  } else {
+    greeting.textContent = "حتى لو طال يومك، مو لازم تواجهين كل أفكارك دفعة وحدة 🤍 خذي وقتك، ونبدأ من الشعور الأقرب لك.";
+  }
+}
+
+function saveMemories() {
+  localStorage.setItem(STORAGE.memories, JSON.stringify(app.memories));
+}
+
+function addMemory(text) {
+  const value = String(text || "").trim();
+  if (!value) return false;
+
+  const duplicate = app.memories.some(item => item.text.toLowerCase() === value.toLowerCase());
+  if (duplicate) {
+    toast("هذي المعلومة موجودة في ذاكرتي أصلًا 🤍");
+    return false;
+  }
+
+  app.memories.push({
+    id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+    text: value,
+    createdAt: new Date().toISOString()
+  });
+
+  saveMemories();
+  return true;
+}
+
+function deleteMemory(id) {
+  app.memories = app.memories.filter(item => item.id !== id);
+  saveMemories();
+  renderMemoryPanel();
+}
+
+function clearMemories() {
+  app.memories = [];
+  saveMemories();
+  openMemoryPanel();
+  toast("حذفت الذكريات المحفوظة من هذا الجهاز.");
+}
+
+function showPage(name) {
+  const target = document.getElementById("page-" + name);
+  if (!target) return;
+
+  if (name === "contact" && app.page !== "contact") {
+    app.lastPage = app.page;
+  }
+
+  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+  target.classList.add("active");
+  app.page = name;
+
+  if (name === "home") updateTimeGreeting();
+  window.scrollTo({top:0, behavior:"smooth"});
+
+  if (name === "contact") {
+    document.getElementById("contactSubject").value = localStorage.getItem(STORAGE.contactSubject) || "";
+    document.getElementById("contactMessage").value = localStorage.getItem(STORAGE.contactMessage) || "";
+  }
+}
+
+function goHome() {
+  if (app.page === "chat") {
+    showExitDialog();
+    return;
+  }
+  showPage("home");
+}
+
+function showExitDialog() {
+  openCustomPanel("نطلع من الجلسة؟", "إذا رجعتي للرئيسية، تقدرين تنهين جلستك الحالية أو تكمّلين الحديث.", [
+    {label:"إنهاء الجلسة", primary:true, action:() => endSession()},
+    {label:"أكمل الحديث", action:() => {}}
+  ]);
+}
+
+function goBackFromContact() {
+  showPage(app.lastPage || "home");
+}
+
+function chooseNeed(key) {
+  if (!needInfo[key]) return;
+  app.need = key;
+  const info = needInfo[key];
+  document.getElementById("confirm-emoji").textContent = info.emoji;
+  document.getElementById("confirm-title").textContent = info.title;
+  document.getElementById("confirm-copy").textContent = info.copy;
+  showPage("confirm");
+}
+
+function startConversation() {
+  app.mode = app.need;
+  app.history = [];
+  app.sessionNotes = [];
+  app.requestedReflection = "";
+  app.correcting = false;
+  app.sessionId = Date.now();
+  app.sessionStarted = true;
+
+  document.getElementById("messages").innerHTML = "";
+  showPage("chat");
+  addMessage("ai", needInfo[app.mode].first, {record:false});
+  updateChatHeading();
+}
+
+function updateChatHeading() {
+  const info = needInfo[app.mode] || needInfo.unsure;
+  const heading = document.querySelector(".chat-head h2");
+  const subheading = document.querySelector(".chat-head p");
+
+  if (heading) heading.textContent = info.title;
+  if (subheading) {
+    subheading.textContent = app.mode === "listen"
+      ? "خذي وقتك، ما يحتاج تستعجلين."
+      : app.mode === "help"
+        ? "نفهم الموقف أول، وبعدها نفكر سوا."
+        : "نمشي شوي شوي، بدون أحكام أو استعجال.";
+  }
+}
+
+function setMode(mode) {
+  if (!needInfo[mode]) return;
+  app.mode = mode;
+  app.requestedReflection = "";
+  updateChatHeading();
+
+  const messages = {
+    listen:"تمام، بأسمعك بدون ما أستعجل بالنصائح. كمّلي على راحتك.",
+    understand:"خلينا نفهم اللي يصير معك شوي شوي، ونخلي أي تفسير احتمالًا إلى أن نتأكد منك.",
+    help:"أكيد. نفهم الموقف أول، وبعدها نختار خطوة صغيرة تناسب ظروفك.",
+    unsure:"مو لازم تعرفين احتياجك الحين. نبدأ من أي مكان يناسبك."
+  };
+  addMessage("ai", messages[mode] || "أنا معك. كمّلي.");
+}
+
+function addMessage(role, text, options = {}) {
+  const box = document.getElementById("messages");
+  const el = document.createElement("div");
+
+  el.className = "message " + (role === "user" ? "user" : "ai");
+  el.textContent = String(text);
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+
+  if (options.record !== false && (role === "user" || role === "ai")) {
+    app.history.push({
+      role: role === "user" ? "user" : "model",
+      parts: [{text:String(text)}]
+    });
+  }
+
+  return el;
+}
+
+function getVoiceState() {
+  return document.getElementById("voiceWrapper").dataset.state;
+}
+
+function setVoiceState(state, message) {
+  document.getElementById("voiceWrapper").dataset.state = state;
+  document.getElementById("voiceStatus").textContent = message || "";
+}
+
+if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+  try {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    app.recognition = new SR();
+    app.recognition.lang = "ar-SA";
+    app.recognition.interimResults = false;
+    app.recognition.continuous = false;
+
+    app.recognition.onstart = () => setVoiceState("listening","أسمعك… تكلمي على راحتك.");
+    app.recognition.onresult = event => {
+      const transcript = event.results[0][0].transcript;
+      const input = document.getElementById("messageInput");
+      input.value = transcript;
+      input.focus();
+      setVoiceState("idle","وصلني كلامك. تقدرين ترسلينه إذا كنتِ جاهزة.");
+      toast("وصلني كلامك 🤍");
+    };
+    app.recognition.onerror = () => setVoiceState("idle","ما قدرت أوصل للمايك. تقدرين تكتبين لي بدلًا منه.");
+    app.recognition.onend = () => {
+      if (getVoiceState() === "listening") setVoiceState("idle","أنا هنا، كمّلي بالطريقة اللي تريحك.");
+    };
+  } catch (error) {
+    console.warn("Speech recognition is unavailable.", error);
+  }
+}
+
+function toggleListening() {
+  if (!app.recognition) {
+    toast("المتصفح ما يدعم التحدث هنا. جرّبي Chrome أو اكتبي رسالتك.");
+    return;
+  }
+  if (getVoiceState() === "listening") {
+    app.recognition.stop();
+    setVoiceState("idle","وقفت الاستماع.");
+  } else {
+    try { app.recognition.start(); } catch { toast("الميكروفون مشغول."); }
+  }
+}
+
+function toggleVoiceReply() {
+  app.voiceReply = !app.voiceReply;
+  document.getElementById("voiceReplyBtn").textContent =
+    app.voiceReply ? "🔊 الرد الصوتي: مفعّل" : "🔇 الرد الصوتي: متوقف";
+  if (!app.voiceReply && "speechSynthesis" in window) speechSynthesis.cancel();
+}
+
+function speak(text) {
+  if (!app.voiceReply || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "ar-SA";
+  utterance.rate = .92;
+  utterance.pitch = 1.05;
+  utterance.onstart = () => setVoiceState("speaking","أتكلم معك…");
+  utterance.onend = () => setVoiceState("idle","أنا هنا، كمّلي على راحتك.");
+  utterance.onerror = () => setVoiceState("idle","تقدرين تكمّلين بالكتابة.");
+  speechSynthesis.speak(utterance);
+}
+
+function clarify() {
+  app.correcting = true;
+  addMessage("ai","طيب، علّميني بالطريقة اللي تناسبك. وش الجزء اللي فهمته غلط؟ أنا أسمعك.");
+}
+
+function requestReflection(type) {
+  const prompts = {
+    map: { title:"خريطة الشعور", instruction:"أنشئ خريطة شعور نصية قصيرة مبنية فقط على ما ورد فعلًا في هذه المحادثة." },
+    patterns: { title:"شيء لاحظته", instruction:"راجع سياق المحادثة الحالية بحثًا عن نمط محتمل." },
+    growth: { title:"رحلتك", instruction:"استخرج ما تغيّر أو ما حاول المستخدم فعله." },
+    wins: { title:"انتصاراتك الصغيرة", instruction:"ساعد المستخدم على ملاحظة خطوة إيجابية صغيرة." }
+  };
+  if (!prompts[type]) return;
+  app.requestedReflection = prompts[type].instruction;
+  document.getElementById("messageInput").value = "خلينا نستكشف: " + prompts[type].title;
+  document.getElementById("chatForm").requestSubmit();
+}
+
+function enableMemory() {
+  app.memoryEnabled = true;
+  localStorage.setItem("maaman_memory_enabled","true");
+  closeCustomPanel();
+  toast("تفعّلت الذاكرة 🤍");
+}
+
+function disableMemory() {
+  app.memoryEnabled = false;
+  localStorage.setItem("maaman_memory_enabled","false");
+  closeCustomPanel();
+  toast("توقّف استخدام الذاكرة.");
+}
+
+function openMemoryPanel() {
+  const content = document.createElement("div");
+  const intro = document.createElement("p");
+  intro.textContent = app.memoryEnabled ? "هذي الأشياء اللي اخترتِ حفظها." : "الذاكرة اختيارية.";
+  content.appendChild(intro);
+
+  const toggle = document.createElement("button");
+  toggle.className = "primary";
+  toggle.textContent = app.memoryEnabled ? "إيقاف الذاكرة" : "تفعيل الذاكرة";
+  toggle.onclick = () => app.memoryEnabled ? disableMemory() : enableMemory();
+  content.appendChild(toggle);
+
+  const list = document.createElement("div");
+  list.id = "memoryList";
+  list.style.cssText = "display:grid;gap:10px;margin:12px 0";
+  content.appendChild(list);
+
+  openCustomPanel("ذاكرتي في مَأْمَن", "", [{label:"إغلاق", action:() => {}}], content);
+  renderMemoryPanel();
+}
+
+function renderMemoryPanel() {
+  const list = document.getElementById("memoryList");
+  if (!list) return;
+  list.replaceChildren();
+  if (!app.memories.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "ما فيه ذكريات محفوظة للحين.";
+    list.appendChild(empty);
+    return;
+  }
+  app.memories.forEach(memory => {
+    const row = document.createElement("div");
+    row.style.cssText = "border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:start";
+    const text = document.createElement("span");
+    text.textContent = memory.text;
+    text.style.flex = "1";
+    row.appendChild(text);
+    list.appendChild(row);
+  });
+}
+
+function openCustomPanel(title, description, actions, bodyContent) {
+  closeCustomPanel();
+  const backdrop = document.createElement("div");
+  backdrop.id = "customPanel";
+  backdrop.className = "modal-backdrop show";
+  backdrop.style.zIndex = "30";
+
+  const panel = document.createElement("div");
+  panel.className = "modal";
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+  panel.appendChild(heading);
+  if (description) {
+    const p = document.createElement("p");
+    p.textContent = description;
+    panel.appendChild(p);
+  }
+  if (bodyContent) panel.appendChild(bodyContent);
+
+  const buttons = document.createElement("div");
+  buttons.className = "modal-actions";
+  buttons.style.marginTop = "16px";
+  (actions || []).forEach(item => {
+    const button = document.createElement("button");
+    button.className = item.primary ? "primary" : "secondary";
+    button.textContent = item.label;
+    button.onclick = () => { closeCustomPanel(); if (item.action) item.action(); };
+    buttons.appendChild(button);
+  });
+  panel.appendChild(buttons);
+  backdrop.appendChild(panel);
+  document.body.appendChild(backdrop);
+}
+
+function closeCustomPanel() {
+  const panel = document.getElementById("customPanel");
+  if (panel) panel.remove();
+}
+
+function addBrainTools() {
+  const quick = document.querySelector(".quick-actions");
+  if (!quick || document.getElementById("memoryToolButton")) return;
+  const tools = [
+    ["memoryToolButton","🧠 ذاكرتي",openMemoryPanel],
+    ["mapToolButton","🪢 خريطة الشعور",() => requestReflection("map")],
+    ["patternToolButton","💭 شيء لاحظته",() => requestReflection("patterns")],
+    ["growthToolButton","🌱 شوف وش تغيّر",() => requestReflection("growth")],
+    ["winsToolButton","✨ انتصاراتي الصغيرة",() => requestReflection("wins")]
+  ];
+  tools.forEach(([id,label,action]) => {
+    const button = document.createElement("button");
+    button.id = id; button.type = "button"; button.textContent = label; button.onclick = action;
+    quick.appendChild(button);
+  });
+}
+addBrainTools();
+
+document.getElementById("chatForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const input = document.getElementById("messageInput");
+  const text = input.value.trim();
+  if (!text || app.busy) return;
+  input.value = "";
+  addMessage("user",text);
+  app.sessionNotes.push({role:"user",text});
+  await respond(text);
+});
+
+document.getElementById("messageInput").addEventListener("keydown", event => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    document.getElementById("chatForm").requestSubmit();
+  }
+});
+
+function buildGeminiContents() {
+  const normalized = [];
+  for (const item of app.history) {
+    if (!item || !["user", "model"].includes(item.role)) continue;
+    const text = (item.parts || []).map(p => p.text || "").join("").trim();
+    if (!text) continue;
+    if (normalized.length === 0 && item.role !== "user") continue;
+    const previous = normalized[normalized.length - 1];
+    if (previous && previous.role === item.role) {
+      previous.parts[0].text += "\n\n" + text;
+    } else {
+      normalized.push({ role: item.role, parts: [{text}] });
+    }
+  }
+  const contents = normalized.slice(-24);
+  while (contents.length && contents[0].role !== "user") {
+    contents.shift();
+  }
+  return contents;
+}
+
+function getMemoryContext() {
+  if (!app.memoryEnabled || !app.memories.length) return "لا توجد ذكريات شخصية متاحة للاستخدام.";
+  return app.memories.map((item,index) => `${index + 1}. ${item.text}`).join("\n");
+}
+
+function buildSystemPrompt() {
+  const info = needInfo[app.mode] || needInfo.unsure;
+  return `أنت "مَأْمَن"، رفيق رقمي عربي للتفكير والفضفضة وفهم الذات والرفاه النفسي.
+احتياج المستخدم الحالي: ${info.title}. وصف هذا الاحتياج: ${info.copy}
+قواعد المحادثة: استمع بعمق، استخدم لغة احتمالية، لا تشخص نفسياً، ولا تطرح أكثر من سؤال واحد.
+الذكريات المسموحة:\n${getMemoryContext()}`;
+}
+
+async function respond(userText) {
+  app.busy = true;
+  setVoiceState("thinking","لحظة… خليني أفهمك.");
+  const sendButton = document.querySelector(".send-btn");
+  sendButton.disabled = true;
+
+  try {
+    const answer = await askGemini();
+    app.lastAssistantAnswer = answer;
+    addMessage("ai",answer);
+    app.sessionNotes.push({role:"ai",text:answer});
+    app.correcting = false;
+    app.requestedReflection = "";
+    speak(answer);
+  } catch (error) {
+    toast("تعذّر الاتصال بالذكاء الاصطناعي؛ رد احتياطي مؤقت 🤍");
+    const fallback = localResponse(userText);
+    addMessage("ai",fallback);
+    speak(fallback);
+  } finally {
+    app.busy = false;
+    sendButton.disabled = false;
+    setVoiceState("idle","أنا هنا، كمّلي على راحتك.");
+  }
+}
+
+function localResponse(text) {
+  return "أنا معك. كمّلي على راحتك، وش أكثر شيء مأثر عليك هالحظة؟";
+}
+
+/* 🔒 الاتصال الخفي بـ Vercel Serverless Function لحماية المفتاح */
+async function askGemini() {
+  const contents = buildGeminiContents();
+  if (!contents.length) throw new Error("No valid history");
+
+  if (app.apiKey) {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + encodeURIComponent(app.apiKey), {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        systemInstruction:{parts:[{text:buildSystemPrompt()}]},
+        contents,
+        generationConfig:{temperature:.75,maxOutputTokens:500}
+      })
+    });
+    if (!response.ok) throw new Error("Custom key failed");
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
+  }
+
+  const response = await fetch("/api/chat", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      contents,
+      systemInstruction:{parts:[{text:buildSystemPrompt()}]}
+    })
+  });
+
+  if (!response.ok) throw new Error("Secure server error");
+  const data = await response.json();
+  return data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
+}
+
+function endSession() {
+  showPage("ending");
+}
+
+function saveTakeaway() {
+  const field = document.getElementById("takeaway");
+  const value = field.value.trim();
+  if (!value) { toast("اكتبي جملة تبغين تحتفظين فيها أول 🤍"); return; }
+  toast("حُفظ أثر الجلسة على هذا الجهاز 🤍");
+}
+
+function toggleNight() {
+  app.night = !app.night;
+  document.body.classList.toggle("night",app.night);
+  localStorage.setItem(STORAGE.night,String(app.night));
+}
+
+function openApiModal() { document.getElementById("apiModal").classList.add("show"); }
+function closeApiModal() { document.getElementById("apiModal").classList.remove("show"); }
+function saveApiKey() {
+  const key = document.getElementById("apiKey").value.trim();
+  if (!key) return;
+  app.apiKey = key;
+  localStorage.setItem(STORAGE.apiKey,key);
+  closeApiModal();
+  toast("انحفظ المفتاح الشخصي.");
+}
+function removeApiKey() {
+  app.apiKey = "";
+  localStorage.removeItem(STORAGE.apiKey);
+  document.getElementById("apiModal").classList.remove("show");
+  toast("تم حذف المفتاح الشخصي والعودة للخادم الآمن.");
+}
+
+document.getElementById("contactForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  toast("تم إرسال رسالتك بسلام 🤍");
+});
+
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 3200);
+}
+
+updateTimeGreeting();
+</script>
+</body>
+</html>
+DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FAF7F2">
+<title>مَأْمَن | مساحتك الآمنة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#FAF7F2; --soft:#F1EAE0; --text:#3D352E; --muted:#81766B;
+  --rose:#D8A7A1; --rose-deep:#BD837D; --olive:#8A9A86;
+  --card:rgba(255,255,255,.69); --border:rgba(104,86,70,.13);
+  --shadow:0 22px 70px rgba(83,65,48,.09); --radius:28px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0; min-height:100dvh; overflow-x:hidden; background:var(--bg);
+  color:var(--text); font-family:"IBM Plex Sans Arabic",Tahoma,sans-serif;
+  transition:background .4s,color .4s;
+}
+button,input,textarea { font:inherit; }
+button { color:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+button:focus-visible,input:focus-visible,textarea:focus-visible {
+  outline:2px solid var(--rose-deep); outline-offset:4px;
+}
+button:disabled { opacity:.5; cursor:wait; }
+button:active { transform:scale(.98); }
+
+body.night {
+  --bg:#242723; --soft:#30332D; --text:#F0EAE0; --muted:#B5ADA1;
+  --card:rgba(53,57,50,.86); --border:rgba(235,225,210,.12);
+  --shadow:0 22px 70px rgba(0,0,0,.2);
+}
+.ambient {
+  position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
+  background:radial-gradient(ellipse at 15% 18%,#E8C9BE55,transparent 38%),
+  radial-gradient(ellipse at 85% 75%,#C6D3BE55,transparent 36%),
+  linear-gradient(145deg,var(--bg),var(--soft));
+}
+body.night .ambient {
+  background:radial-gradient(ellipse at 15% 18%,#76534C30,transparent 38%),
+  radial-gradient(ellipse at 85% 75%,#52644D30,transparent 36%),
+  linear-gradient(145deg,var(--bg),var(--soft));
+}
+.haze {
+  position:absolute; width:45vw; height:45vw; min-width:250px; min-height:250px;
+  border-radius:50%; filter:blur(65px); opacity:.28; background:#E4BEB2;
+  top:-18%; right:-12%; animation:float 20s ease-in-out infinite alternate;
+}
+.haze.two { background:#BBCAB3; top:55%; right:55%; animation-duration:25s; animation-delay:-8s; }
+.haze.three { background:#E5D4C1; top:65%; right:-15%; animation-duration:22s; animation-delay:-5s; }
+@keyframes float { to { transform:translate(-7vw,8vh) scale(1.16); } }
+
+.app {
+  width:min(100%,1080px); min-height:100dvh; margin:auto;
+  padding:18px clamp(16px,4vw,42px) 30px;
+  display:flex; flex-direction:column;
+}
+.topbar {
+  min-height:54px; display:flex; align-items:center; justify-content:space-between;
+  gap:12px; position:relative; z-index:3;
+}
+.brand { display:flex; align-items:center; gap:10px; border:0; background:none; padding:4px 0; }
+.brand-symbol {
+  width:36px; height:36px; display:grid; place-items:center;
+  border-radius:15px 15px 15px 5px;
+  background:linear-gradient(145deg,#E8C9BE,#B7C5AE); color:#fff;
+  box-shadow:0 8px 20px #9c82702a;
+}
+.brand-symbol svg { width:24px; }
+.brand-name { font-size:20px; font-weight:600; }
+.top-actions { display:flex; gap:8px; }
+.icon-btn {
+  width:42px; height:42px; border:1px solid var(--border); background:var(--card);
+  border-radius:50%; display:grid; place-items:center; transition:transform .25s,background .25s;
+}
+.icon-btn:hover { transform:translateY(-2px); }
+.icon-btn svg { width:19px; height:19px; }
+.page { display:none; flex:1; width:100%; animation:arrive .55s cubic-bezier(.2,.7,.2,1) both; }
+.page.active { display:flex; flex-direction:column; }
+@keyframes arrive { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.center-page { align-items:center; justify-content:center; text-align:center; }
+.eyebrow { font-size:12px; color:var(--muted); letter-spacing:.04em; margin:0 0 12px; }
+h1,h2,h3,p { margin-top:0; }
+h1 { font-size:clamp(32px,6vw,56px); line-height:1.45; letter-spacing:-.035em; font-weight:500; margin-bottom:12px; }
+h2 { font-size:clamp(25px,4vw,35px); font-weight:500; line-height:1.5; }
+p { line-height:1.95; }
+.subtitle { max-width:470px; color:var(--muted); font-size:16px; line-height:2; margin:0 auto; }
+.primary,.secondary {
+  min-height:50px; border-radius:999px; padding:12px 24px;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  transition:transform .25s,box-shadow .25s,background .25s;
+}
+.primary { color:#fff; border:0; background:linear-gradient(120deg,var(--rose-deep),#C9978E); box-shadow:0 10px 25px #bd837d2b; }
+.primary:hover { transform:translateY(-2px); box-shadow:0 14px 30px #bd837d3a; }
+.secondary { background:var(--card); border:1px solid var(--border); }
+.secondary:hover { background:var(--soft); }
+.actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:27px; }
+.small-note { font-size:12px; color:var(--muted); line-height:1.8; margin-top:20px; }
+
+.intro-content { padding:48px 0; }
+.intro-mark { width:132px; height:132px; margin:0 auto 28px; position:relative; display:grid; place-items:center; animation:logo-in 1.1s cubic-bezier(.16,1,.3,1) both; }
+.intro-mark:before,.intro-mark:after { content:""; position:absolute; inset:0; border:1px solid #C48B8547; border-radius:48% 52% 56% 44%; animation:orbit 12s linear infinite; }
+.intro-mark:after { inset:12px; border-color:#8A9A864d; transform:rotate(35deg); animation-direction:reverse; animation-duration:16s; }
+.logo-core { width:82px; height:82px; display:grid; place-items:center; border-radius:45% 55% 50% 50%; background:linear-gradient(145deg,#EAD2C9,#C4D0BB); box-shadow:0 12px 35px #9e88702b; }
+.logo-core svg { width:44px; height:44px; }
+@keyframes orbit { to { transform:rotate(360deg); } }
+@keyframes logo-in { from { opacity:0; transform:scale(.65) rotate(-12deg); } to { opacity:1; transform:scale(1) rotate(0); } }
+.intro-content h1 { animation:arrive .8s .2s both; }
+.intro-content .subtitle { animation:arrive .8s .35s both; }
+.intro-content .actions { animation:arrive .8s .5s both; }
+
+.section-heading { text-align:center; padding:clamp(35px,8vh,80px) 0 30px; }
+.needs-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; width:min(100%,690px); margin:0 auto; }
+.need-card {
+  text-align:right; padding:22px; min-height:145px; border:1px solid var(--border);
+  border-radius:24px; background:var(--card); box-shadow:0 8px 30px #59463308;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.need-card:hover { transform:translateY(-4px); border-color:#C48B8573; box-shadow:var(--shadow); }
+.need-emoji { width:43px; height:43px; border-radius:15px; display:grid; place-items:center; background:var(--soft); font-size:22px; margin-bottom:14px; }
+.need-card strong { display:block; font-weight:600; font-size:17px; margin-bottom:4px; }
+.need-card span:last-child { color:var(--muted); font-size:13px; line-height:1.8; }
+.back-link { border:0; background:none; color:var(--muted); padding:12px; display:inline-flex; align-items:center; gap:8px; align-self:flex-start; }
+
+.confirm-card { width:min(100%,560px); margin:auto; padding:clamp(24px,5vw,45px); border:1px solid var(--border); border-radius:32px; background:var(--card); box-shadow:var(--shadow); text-align:center; }
+.confirm-symbol { width:74px; height:74px; margin:0 auto 18px; display:grid; place-items:center; background:var(--soft); border-radius:26px; font-size:34px; }
+
+.chat-layout { width:min(100%,760px); margin:0 auto; display:flex; flex-direction:column; flex:1; }
+.chat-head { text-align:center; padding:15px 0 4px; }
+.chat-head h2 { margin:0; font-size:24px; }
+.chat-head p { font-size:13px; color:var(--muted); margin:4px 0 0; }
+.voice-area { padding:14px 0 12px; display:flex; flex-direction:column; align-items:center; }
+.voice-wrapper { position:relative; width:150px; height:150px; display:grid; place-items:center; margin:0 auto 8px; }
+.voice-wrapper:before,.voice-wrapper:after { content:""; position:absolute; inset:12px; border:1px solid #C48B8548; border-radius:50%; animation:breathe 4s ease-in-out infinite; }
+.voice-wrapper:after { inset:0; border-color:#8A9A8645; animation-delay:-2s; }
+@keyframes breathe { 0%,100% { transform:scale(.91); opacity:.45; } 50% { transform:scale(1.08); opacity:.95; } }
+.voice-orb { position:relative; width:94px; height:94px; z-index:1; border:0; border-radius:50%; display:grid; place-items:center; background:radial-gradient(circle at 32% 25%,#F3DCD2,#D7AAA2 53%,#B98A81); box-shadow:inset -8px -10px 22px #8c5b5530,0 10px 35px #c48b8535; transition:background .5s,box-shadow .5s,transform .3s; }
+.voice-orb svg { width:30px; height:30px; color:white; }
+.wave-lines { position:absolute; inset:-14px; border-radius:50%; pointer-events:none; }
+.wave-lines i { position:absolute; inset:0; border:1px solid #C48B8555; border-radius:46% 54% 49% 51%; animation:wave 7s linear infinite; }
+.wave-lines i:nth-child(2) { inset:6px; animation-duration:5s; animation-direction:reverse; }
+.wave-lines i:nth-child(3) { inset:-6px; animation-duration:9s; }
+@keyframes wave { to { transform:rotate(360deg); } }
+.voice-wrapper[data-state="listening"] .voice-orb { background:radial-gradient(circle at 30% 25%,#F0DDD1,#A5B69D 70%); box-shadow:0 0 45px #9caf8c75; animation:listen 1.6s ease-in-out infinite; }
+.voice-wrapper[data-state="thinking"] .voice-orb { background:radial-gradient(circle at 30% 25%,#F0D7D0,#C6A2A0 68%); animation:think 1.8s ease-in-out infinite; }
+.voice-wrapper[data-state="speaking"] .voice-orb { background:radial-gradient(circle at 30% 25%,#F4DDD1,#B5C4AC 70%); animation:speak .9s ease-in-out infinite alternate; }
+.voice-wrapper[data-state="listening"] .wave-lines i { animation-duration:1.6s; }
+.voice-wrapper[data-state="speaking"] .wave-lines i { animation-duration:1.2s; }
+@keyframes listen { 50% { transform:scale(1.08); } }
+@keyframes think { 50% { transform:scale(.94) rotate(8deg); } }
+@keyframes speak { to { transform:scale(1.09); } }
+.voice-status { font-size:13px; color:var(--muted); min-height:25px; text-align:center; }
+.messages { flex:1; min-height:130px; max-height:35dvh; overflow:auto; padding:14px 2px 20px; display:flex; flex-direction:column; gap:13px; scrollbar-width:thin; }
+.message { width:fit-content; max-width:min(90%,560px); padding:14px 17px; line-height:1.95; font-size:15px; white-space:pre-wrap; animation:arrive .3s both; }
+.message.ai { align-self:flex-start; background:var(--card); border:1px solid var(--border); border-radius:22px 22px 22px 6px; }
+.message.user { align-self:flex-end; background:#DCC0B7; color:#493A33; border-radius:22px 22px 6px 22px; }
+.quick-actions { display:flex; flex-wrap:wrap; gap:8px; padding:0 0 12px; }
+.quick-actions button { background:transparent; border:1px solid var(--border); border-radius:99px; padding:8px 13px; font-size:12px; color:var(--muted); }
+.composer { display:flex; align-items:flex-end; gap:9px; padding:9px; border:1px solid var(--border); border-radius:25px; background:var(--card); box-shadow:0 10px 35px #59463309; }
+.composer textarea { min-width:0; flex:1; resize:none; max-height:120px; min-height:42px; border:0; outline:0; background:transparent; color:var(--text); padding:10px 8px; line-height:1.7; }
+.composer textarea:focus { outline:0; }
+.composer textarea::placeholder { color:var(--muted); }
+.send-btn { width:43px; height:43px; flex:0 0 43px; border:0; border-radius:50%; background:var(--rose-deep); color:white; display:grid; place-items:center; }
+.send-btn svg { width:20px; height:20px; }
+.chat-footer { display:flex; justify-content:space-between; gap:12px; padding-top:12px; }
+.text-btn { border:0; background:none; color:var(--muted); font-size:12px; padding:8px 0; }
+.text-btn:hover { color:var(--text); }
+
+.contact-wrap { width:min(100%,650px); margin:auto; padding:35px 0; }
+.contact-card { padding:clamp(22px,5vw,42px); border:1px solid var(--border); border-radius:32px; background:var(--card); box-shadow:var(--shadow); }
+.contact-card h2 { margin-bottom:8px; }
+.contact-card .subtitle { margin:0 0 25px; text-align:right; font-size:14px; }
+.contact-card label { display:block; font-size:13px; margin:18px 0 8px; }
+.contact-card input,.contact-card textarea { width:100%; border:1px solid var(--border); border-radius:16px; background:var(--bg); color:var(--text); padding:14px 15px; outline:0; }
+.contact-card textarea { min-height:180px; resize:vertical; line-height:1.9; }
+.contact-card input:focus,.contact-card textarea:focus { border-color:var(--rose-deep); }
+.notice { padding:12px 14px; border-radius:14px; background:var(--soft); color:var(--muted); font-size:12px; line-height:1.9; margin-top:18px; }
+.footer { text-align:center; padding-top:24px; color:var(--muted); font-size:11px; }
+
+.closing-card { width:min(100%,580px); margin:auto; text-align:center; padding:40px 10px; }
+.closing-mark { font-size:35px; margin-bottom:16px; }
+.signature { color:var(--rose-deep); font-size:20px; margin-top:25px; }
+.toast { position:fixed; bottom:20px; left:50%; transform:translate(-50%,20px); opacity:0; pointer-events:none; z-index:40; background:var(--text); color:var(--bg); padding:12px 18px; border-radius:99px; font-size:13px; width:max-content; max-width:90%; box-shadow:var(--shadow); transition:.3s; }
+.toast.show { opacity:1; transform:translate(-50%,0); }
+.modal-backdrop { position:fixed; inset:0; z-index:15; display:none; place-items:center; padding:18px; background:#30271f70; backdrop-filter:blur(8px); }
+.modal-backdrop.show { display:grid; }
+.modal { width:min(100%,460px); padding:26px; border-radius:26px; background:var(--bg); box-shadow:var(--shadow); }
+.modal h3 { margin-bottom:8px; }
+.modal p { color:var(--muted); font-size:13px; line-height:1.9; }
+.modal input { width:100%; padding:13px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); margin:7px 0 15px; }
+.modal-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+@media(max-width:560px) {
+  .app { padding:12px 16px 22px; }
+  .needs-grid { gap:10px; }
+  .need-card { min-height:137px; padding:15px; border-radius:20px; }
+  .need-card strong { font-size:15px; }
+  .need-card span:last-child { font-size:12px; }
+  .voice-wrapper { transform:scale(.9); margin-top:-3px; margin-bottom:0; }
+  .messages { max-height:31dvh; }
+  .chat-head h2 { font-size:21px; }
+  .intro-content { padding:35px 0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; }
+}
+</style>
+</head>
+
+<body>
+<div class="ambient" aria-hidden="true">
+  <div class="haze"></div><div class="haze two"></div><div class="haze three"></div>
+</div>
+
+<div class="app">
+<header class="topbar">
+  <button class="brand" onclick="goHome()" aria-label="العودة إلى مَأْمَن">
+    <span class="brand-symbol">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 29C12 25 10 17 15 10C23 12 28 19 20 29Z" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M13 28C18 23 22 20 27 17" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="brand-name">مَأْمَن</span>
+  </button>
+  <div class="top-actions">
+    <button class="icon-btn" onclick="toggleNight()" aria-label="تبديل الوضع الليلي" title="الوضع الليلي">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5 8.5 8.5 0 1 0 20.5 14.5Z"/></svg>
+    </button>
+    <button class="icon-btn" onclick="showPage('contact')" aria-label="التواصل" title="التواصل">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v9a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.5A2.5 2.5 0 0 1 4 14Z"/><path d="M8 8h8M8 12h5"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="page-intro" class="page center-page active">
+  <div class="intro-content">
+    <div class="intro-mark" aria-hidden="true"><div class="logo-core">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M24 37C12 31 11 20 18 11C29 14 35 24 24 37Z" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M15 36C22 28 27 23 34 19" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </div></div>
+    <p class="eyebrow">مساحتك، مثل ما أنتِ</p>
+    <h1>مَأْمَن</h1>
+    <p class="subtitle">مساحة آمنة لك، كما أنتِ.<br>ما يحتاج ترتبين كلامك. احكي مثل ما أنتِ.</p>
+    <div class="actions"><button class="primary" onclick="showPage('home')">تعالي نحكي <span aria-hidden="true">←</span></button></div>
+    <p class="small-note">خذي وقتك. ما فيه طريقة صح أو غلط للكلام هنا.</p>
+  </div>
+</main>
+
+<section id="page-home" class="page center-page">
+  <div class="intro-content">
+    <p class="eyebrow">أهلًا بك في مَأْمَن</p>
+    <h1>وش بخاطرك اليوم؟</h1>
+    <p class="subtitle">ما يحتاج ترتبين كلامك. احكي مثل ما أنتِ.</p>
+    <p id="timeGreeting" class="small-note" aria-live="polite"></p>
+    <div class="actions">
+      <button class="primary" onclick="showPage('needs')">تعال نحكي</button>
+      <button class="secondary" onclick="showPage('contact')">تواصلي معنا</button>
+    </div>
+    <p class="small-note">مو لازم تعرفين من وين تبدئين.</p>
+  </div>
+</section>
+
+<section id="page-needs" class="page">
+  <button class="back-link" onclick="showPage('home')">→ رجوع</button>
+  <div class="section-heading">
+    <p class="eyebrow">على راحتك</p><h2>وش تحتاجين مني اليوم؟</h2>
+    <p class="subtitle">اختاري اللي يشبه احتياجك، وتقدرين تغيرين رأيك بأي وقت.</p>
+  </div>
+  <div class="needs-grid">
+    <button class="need-card" onclick="chooseNeed('listen')"><span class="need-emoji">🤍</span><strong>اسمعني</strong><span>أبي أتكلم، بدون حلول الحين.</span></button>
+    <button class="need-card" onclick="chooseNeed('understand')"><span class="need-emoji">🧠</span><strong>خلنا نفهمه</strong><span>أبي أفهم شعوري واللي يصير داخلي.</span></button>
+    <button class="need-card" onclick="chooseNeed('help')"><span class="need-emoji">🌱</span><strong>ساعدني</strong><span>أبي أفكر بخطوة ممكن تساعدني.</span></button>
+    <button class="need-card" onclick="chooseNeed('unsure')"><span class="need-emoji">🫂</span><strong>ما أدري</strong><span>حتى احتياجي مو واضح لي الحين.</span></button>
+  </div>
+  <div class="footer">ما فيه اختيار غلط.</div>
+</section>
+
+<section id="page-confirm" class="page">
+  <button class="back-link" onclick="showPage('needs')">→ تغيير الاختيار</button>
+  <div class="confirm-card">
+    <div class="confirm-symbol" id="confirm-emoji">🤍</div>
+    <p class="eyebrow">خلينا نبدأ على راحتك</p>
+    <h2 id="confirm-title">اسمعني</h2>
+    <p class="subtitle" id="confirm-copy">أنا أسمعك. خذي وقتك وابدئي من المكان اللي يناسبك.</p>
+    <div class="actions">
+      <button class="primary" onclick="startConversation()">أنا جاهزة</button>
+      <button class="secondary" onclick="showPage('needs')">أختار شيء ثاني</button>
+    </div>
+  </div>
+</section>
+
+<section id="page-chat" class="page">
+  <button class="back-link" onclick="endSession()">← إنهاء الجلسة</button>
+  <div class="chat-layout">
+    <div class="chat-head"><h2>أنا أسمعك</h2><p>خذي وقتك، ما يحتاج تستعجلين.</p></div>
+    <div class="voice-area">
+      <div class="voice-wrapper" id="voiceWrapper" data-state="idle">
+        <div class="wave-lines" aria-hidden="true"><i></i><i></i><i></i></div>
+        <button class="voice-orb" id="voiceButton" onclick="toggleListening()" aria-label="ابدئي التحدث">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M9 21h6"/></svg>
+        </button>
+      </div>
+      <div id="voiceStatus" class="voice-status" aria-live="polite">اضغطي الدائرة وتكلمي، أو اكتبي تحت.</div>
+    </div>
+    <div id="messages" class="messages" aria-live="polite"></div>
+    <div class="quick-actions">
+      <button type="button" onclick="clarify()">مو هذا قصدي</button>
+      <button type="button" onclick="setMode('listen')">أبيك تسمعيني بس</button>
+      <button type="button" onclick="setMode('help')">خلنا نفكر بحل</button>
+    </div>
+    <form class="composer" id="chatForm">
+      <textarea id="messageInput" rows="1" placeholder="احكي لي اللي بخاطرك..." aria-label="اكتبي رسالتك"></textarea>
+      <button class="send-btn" type="submit" aria-label="إرسال الرسالة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button>
+    </form>
+    <div class="chat-footer">
+      <button class="text-btn" onclick="toggleVoiceReply()" id="voiceReplyBtn">🔊 الرد الصوتي: مفعّل</button>
+      <button class="text-btn" onclick="openApiModal()">إعداد الاتصال بالذكاء الاصطناعي</button>
+    </div>
+  </div>
+</section>
+
+<section id="page-contact" class="page">
+  <button class="back-link" onclick="goBackFromContact()">→ رجوع</button>
+  <div class="contact-wrap">
+    <div class="contact-card">
+      <p class="eyebrow">مساحة لك أيضًا</p>
+      <h2>ودّك تقولين لنا شيء؟</h2>
+      <p class="subtitle">اقتراح، فكرة، أو حتى ملاحظة صغيرة. اكتبي بالطريقة اللي تريحك.</p>
+      <form id="contactForm">
+        <label for="contactSubject">وش حابة تسمّين رسالتك؟ (اختياري)</label>
+        <input id="contactSubject" maxlength="100" placeholder="فكرة، ملاحظة، أو شيء بخاطري...">
+        <label for="contactMessage">خذي راحتك بالكلام</label>
+        <textarea id="contactMessage" maxlength="5000" placeholder="اكتبي هنا، ما يحتاج ترتبين كل شيء من البداية..."></textarea>
+        <div class="actions" style="justify-content:flex-start">
+          <button class="primary" id="contactSendButton" type="submit">إرسال الرسالة</button>
+          <button class="secondary" type="button" onclick="saveContactDraft()">حفظ المسودة</button>
+        </div>
+      </form>
+      <div class="notice">عند إرسال الرسالة، يحاول مَأْمَن توصيلها عبر خدمة FormSubmit إلى بريد التواصل. لا تكتبي كلمات مرور أو معلومات شديدة الحساسية. يمكنك حفظ المسودة على هذا الجهاز أيضًا.</div>
+    </div>
+  </div>
+</section>
+
+<section id="page-ending" class="page center-page">
+  <div class="closing-card">
+    <div class="closing-mark">☁️</div>
+    <p class="eyebrow">قبل ما تروحين</p>
+    <h2>وش الشيء اللي تبغين تأخذينه معك من كلامنا اليوم؟</h2>
+    <p class="subtitle">مو لازم تطلعين من هنا وأنتِ حالّة كل شيء. أحيانًا يكفي إنك وقفتي شوي وقلتي اللي داخلك. خذي معك اللي تحتاجينه اليوم… واتركي الباقي هنا.</p>
+    <textarea id="takeaway" placeholder="جملة صغيرة تبغين تتذكرينها..." style="width:min(100%,470px);min-height:90px;margin-top:20px;padding:14px;border:1px solid var(--border);border-radius:18px;background:var(--card);color:var(--text);resize:vertical"></textarea>
+    <div class="actions">
+      <button class="primary" onclick="saveTakeaway()">أحتفظ فيها</button>
+      <button class="secondary" onclick="showPage('home')">أرجع لمساحتي</button>
+    </div>
+    <p class="small-note">بهدوء، خطوة بخطوة.</p>
+    <div class="notice" style="max-width:470px;margin:24px auto 0;text-align:right">
+      <strong>رسالة من ابتسام، بكل محبة 🤍</strong>
+      <p style="margin:8px 0 0">أتمنى إنك تلقين هنا مساحة تكونين فيها على طبيعتك، من دون ما تضطرين تبررين شعورك أو تستعجلين في فهمه. مو مطلوب منك تحلّين كل شيء اليوم. أحيانًا أول خطوة هي إنك تسمعين نفسك برفق، وتعطين احتياجك مساحة. خذي من مَأْمَن ما ينفعك، وامشي على قدّ طاقتك، خطوة بخطوة.</p>
+    </div>
+    <div class="signature">ابتسام</div>
+  </div>
+</section>
+
+<div class="footer">مَأْمَن · مساحة للتفكير والفضفضة وفهم الذات</div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="modal-backdrop" id="apiModal" role="dialog" aria-modal="true" aria-labelledby="apiTitle">
+  <div class="modal">
+    <h3 id="apiTitle">إعداد الاتصال بالذكاء الاصطناعي</h3>
+    <p>مأمن متصل تلقائياً بالخادم الآمن. يمكنك إدخال مفتاح خاص إذا أردتِ التخصيص.</p>
+    <label for="apiKey">مفتاح Gemini API (اختياري)</label>
+    <input id="apiKey" type="password" autocomplete="off" placeholder="أدخلي المفتاح هنا">
+    <div class="modal-actions">
+      <button class="primary" onclick="saveApiKey()">حفظ على هذا الجهاز</button>
+      <button class="secondary" onclick="closeApiModal()">إلغاء</button>
+      <button class="text-btn" onclick="removeApiKey()">حذف المفتاح</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const STORAGE = {
+  memories: "maaman_memories_v2",
+  takeaways: "maaman_takeaways",
+  night: "maaman_night",
+  apiKey: "maaman_api_key",
+  contactSubject: "maaman_contact_subject",
+  contactMessage: "maaman_contact_message"
+};
+
+const CONTACT_ENDPOINT = "https://formsubmit.co/ajax/ebtsamsiko@gmail.com";
+
+function readStore(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
+const app = {
+  page: "intro",
+  need: "unsure",
+  mode: "listen",
+  history: [],
+  apiKey: localStorage.getItem(STORAGE.apiKey) || "",
+  night: localStorage.getItem(STORAGE.night) === "true",
+  voiceReply: true,
+  busy: false,
+  recognition: null,
+  lastPage: "home",
+  correcting: false,
+  memoryEnabled: localStorage.getItem("maaman_memory_enabled") === "true",
+  memories: readStore(STORAGE.memories, []),
+  sessionStarted: false,
+  sessionId: null,
+  sessionNotes: [],
+  requestedReflection: "",
+  lastAssistantAnswer: ""
+};
+
+const needInfo = {
+  listen: {
+    emoji:"🤍", title:"اسمعني",
+    copy:"ما راح أستعجل بالنصائح. خذي وقتك، وقولي اللي بخاطرك بالطريقة اللي تقدرين عليها.",
+    first:"أنا أسمعك. خذي وقتك… وش ودّك تقولين؟"
+  },
+  understand: {
+    emoji:"🧠", title:"خلنا نفهمه",
+    copy:"بنمشي شوي شوي ونحاول نفهم الشعور مع بعض، بدون ما نفترض إننا عرفنا السبب من البداية.",
+    first:"خلينا نبدأ من هنا… وش أكثر شيء شاغل بالك هالفترة؟"
+  },
+  help: {
+    emoji:"🌱", title:"ساعدني",
+    copy:"بنفهم الموقف أول، وبعدها نفكر بخطوة صغيرة تناسبك بدل ما نرمي عليك حلول كثيرة.",
+    first:"أنا معك. احكي لي وش صار، ونشوفه سوا قبل ما نفكر وش ممكن تسوين."
+  },
+  unsure: {
+    emoji:"🫂", title:"ما أدري",
+    copy:"مو لازم تعرفين وش تحتاجين الحين. نقدر نبدأ من أي شيء حاضر في بالك.",
+    first:"عادي لو ما تعرفين من وين تبدئين. وش أقرب شيء تحسين فيه الحين، حتى لو مو واضح؟"
+  }
+};
+
+if (app.night) document.body.classList.add("night");
+if (app.apiKey) document.getElementById("apiKey").value = app.apiKey;
+
+function updateTimeGreeting() {
+  const greeting = document.getElementById("timeGreeting");
+  if (!greeting) return;
+
+  const hour = new Date().getHours();
+
+  if (hour >= 5 && hour < 12) {
+    greeting.textContent = "صباحك هدوء يا جميلة 🤍 مو لازم تبدئين يومك وأنتِ مرتبة كل شيء. خذي لحظة واسألي نفسك: وش أحتاج اليوم؟";
+  } else if (hour >= 12 && hour < 17) {
+    greeting.textContent = "وسط زحمة يومك، تستحقين لحظة لك 🌱 خذي نفسًا، وخلينا نفهم وش بخاطرك بدون ضغط أو أحكام.";
+  } else if (hour >= 17 && hour < 23) {
+    greeting.textContent = "مساءك أهدأ يا جميلة 🫂 مو لازم تحملين كل شيء معك لنهاية اليوم. هنا تقدرين تتكلمين على راحتك.";
+  } else {
+    greeting.textContent = "حتى لو طال يومك، مو لازم تواجهين كل أفكارك دفعة وحدة 🤍 خذي وقتك، ونبدأ من الشعور الأقرب لك.";
+  }
+}
+
+function saveMemories() {
+  localStorage.setItem(STORAGE.memories, JSON.stringify(app.memories));
+}
+
+function addMemory(text) {
+  const value = String(text || "").trim();
+  if (!value) return false;
+
+  const duplicate = app.memories.some(item => item.text.toLowerCase() === value.toLowerCase());
+  if (duplicate) {
+    toast("هذي المعلومة موجودة في ذاكرتي أصلًا 🤍");
+    return false;
+  }
+
+  app.memories.push({
+    id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
+    text: value,
+    createdAt: new Date().toISOString()
+  });
+
+  saveMemories();
+  return true;
+}
+
+function deleteMemory(id) {
+  app.memories = app.memories.filter(item => item.id !== id);
+  saveMemories();
+  renderMemoryPanel();
+}
+
+function clearMemories() {
+  app.memories = [];
+  saveMemories();
+  openMemoryPanel();
+  toast("حذفت الذكريات المحفوظة من هذا الجهاز.");
+}
+
+function showPage(name) {
+  const target = document.getElementById("page-" + name);
+  if (!target) return;
+
+  if (name === "contact" && app.page !== "contact") {
+    app.lastPage = app.page;
+  }
+
+  document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+  target.classList.add("active");
+  app.page = name;
+
+  if (name === "home") updateTimeGreeting();
+  window.scrollTo({top:0, behavior:"smooth"});
+
+  if (name === "contact") {
+    document.getElementById("contactSubject").value = localStorage.getItem(STORAGE.contactSubject) || "";
+    document.getElementById("contactMessage").value = localStorage.getItem(STORAGE.contactMessage) || "";
+  }
+}
+
+function goHome() {
+  if (app.page === "chat") {
+    showExitDialog();
+    return;
+  }
+  showPage("home");
+}
+
+function showExitDialog() {
+  openCustomPanel("نطلع من الجلسة؟", "إذا رجعتي للرئيسية، تقدرين تنهين جلستك الحالية أو تكمّلين الحديث.", [
+    {label:"إنهاء الجلسة", primary:true, action:() => endSession()},
+    {label:"أكمل الحديث", action:() => {}}
+  ]);
+}
+
+function goBackFromContact() {
+  showPage(app.lastPage || "home");
+}
+
+function chooseNeed(key) {
+  if (!needInfo[key]) return;
+  app.need = key;
+  const info = needInfo[key];
+  document.getElementById("confirm-emoji").textContent = info.emoji;
+  document.getElementById("confirm-title").textContent = info.title;
+  document.getElementById("confirm-copy").textContent = info.copy;
+  showPage("confirm");
+}
+
+function startConversation() {
+  app.mode = app.need;
+  app.history = [];
+  app.sessionNotes = [];
+  app.requestedReflection = "";
+  app.correcting = false;
+  app.sessionId = Date.now();
+  app.sessionStarted = true;
+
+  document.getElementById("messages").innerHTML = "";
+  showPage("chat");
+  addMessage("ai", needInfo[app.mode].first, {record:false});
+  updateChatHeading();
+}
+
+function updateChatHeading() {
+  const info = needInfo[app.mode] || needInfo.unsure;
+  const heading = document.querySelector(".chat-head h2");
+  const subheading = document.querySelector(".chat-head p");
+
+  if (heading) heading.textContent = info.title;
+  if (subheading) {
+    subheading.textContent = app.mode === "listen"
+      ? "خذي وقتك، ما يحتاج تستعجلين."
+      : app.mode === "help"
+        ? "نفهم الموقف أول، وبعدها نفكر سوا."
+        : "نمشي شوي شوي، بدون أحكام أو استعجال.";
+  }
+}
+
+function setMode(mode) {
+  if (!needInfo[mode]) return;
+  app.mode = mode;
+  app.requestedReflection = "";
+  updateChatHeading();
+
+  const messages = {
+    listen:"تمام، بأسمعك بدون ما أستعجل بالنصائح. كمّلي على راحتك.",
+    understand:"خلينا نفهم اللي يصير معك شوي شوي، ونخلي أي تفسير احتمالًا إلى أن نتأكد منك.",
+    help:"أكيد. نفهم الموقف أول، وبعدها نختار خطوة صغيرة تناسب ظروفك.",
+    unsure:"مو لازم تعرفين احتياجك الحين. نبدأ من أي مكان يناسبك."
+  };
+  addMessage("ai", messages[mode] || "أنا معك. كمّلي.");
+}
+
+function addMessage(role, text, options = {}) {
+  const box = document.getElementById("messages");
+  const el = document.createElement("div");
+
+  el.className = "message " + (role === "user" ? "user" : "ai");
+  el.textContent = String(text);
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+
+  if (options.record !== false && (role === "user" || role === "ai")) {
+    app.history.push({
+      role: role === "user" ? "user" : "model",
+      parts: [{text:String(text)}]
+    });
+  }
+
+  return el;
+}
+
+function getVoiceState() {
+  return document.getElementById("voiceWrapper").dataset.state;
+}
+
+function setVoiceState(state, message) {
+  document.getElementById("voiceWrapper").dataset.state = state;
+  document.getElementById("voiceStatus").textContent = message || "";
+}
+
+if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+  try {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    app.recognition = new SR();
+    app.recognition.lang = "ar-SA";
+    app.recognition.interimResults = false;
+    app.recognition.continuous = false;
+
+    app.recognition.onstart = () => setVoiceState("listening","أسمعك… تكلمي على راحتك.");
+    app.recognition.onresult = event => {
+      const transcript = event.results[0][0].transcript;
+      const input = document.getElementById("messageInput");
+      input.value = transcript;
+      input.focus();
+      setVoiceState("idle","وصلني كلامك. تقدرين ترسلينه إذا كنتِ جاهزة.");
+      toast("وصلني كلامك 🤍");
+    };
+    app.recognition.onerror = () => setVoiceState("idle","ما قدرت أوصل للمايك. تقدرين تكتبين لي بدلًا منه.");
+    app.recognition.onend = () => {
+      if (getVoiceState() === "listening") setVoiceState("idle","أنا هنا، كمّلي بالطريقة اللي تريحك.");
+    };
+  } catch (error) {
+    console.warn("Speech recognition is unavailable.", error);
+  }
+}
+
+function toggleListening() {
+  if (!app.recognition) {
+    toast("المتصفح ما يدعم التحدث هنا. جرّبي Chrome أو اكتبي رسالتك.");
+    return;
+  }
+  if (getVoiceState() === "listening") {
+    app.recognition.stop();
+    setVoiceState("idle","وقفت الاستماع.");
+  } else {
+    try { app.recognition.start(); } catch { toast("الميكروفون مشغول."); }
+  }
+}
+
+function toggleVoiceReply() {
+  app.voiceReply = !app.voiceReply;
+  document.getElementById("voiceReplyBtn").textContent =
+    app.voiceReply ? "🔊 الرد الصوتي: مفعّل" : "🔇 الرد الصوتي: متوقف";
+  if (!app.voiceReply && "speechSynthesis" in window) speechSynthesis.cancel();
+}
+
+function speak(text) {
+  if (!app.voiceReply || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "ar-SA";
+  utterance.rate = .92;
+  utterance.pitch = 1.05;
+  utterance.onstart = () => setVoiceState("speaking","أتكلم معك…");
+  utterance.onend = () => setVoiceState("idle","أنا هنا، كمّلي على راحتك.");
+  utterance.onerror = () => setVoiceState("idle","تقدرين تكمّلين بالكتابة.");
+  speechSynthesis.speak(utterance);
+}
+
+function clarify() {
+  app.correcting = true;
+  addMessage("ai","طيب، علّميني بالطريقة اللي تناسبك. وش الجزء اللي فهمته غلط؟ أنا أسمعك.");
+}
+
+function requestReflection(type) {
+  const prompts = {
+    map: { title:"خريطة الشعور", instruction:"أنشئ خريطة شعور نصية قصيرة مبنية فقط على ما ورد فعلًا في هذه المحادثة." },
+    patterns: { title:"شيء لاحظته", instruction:"راجع سياق المحادثة الحالية بحثًا عن نمط محتمل." },
+    growth: { title:"رحلتك", instruction:"استخرج ما تغيّر أو ما حاول المستخدم فعله." },
+    wins: { title:"انتصاراتك الصغيرة", instruction:"ساعد المستخدم على ملاحظة خطوة إيجابية صغيرة." }
+  };
+  if (!prompts[type]) return;
+  app.requestedReflection = prompts[type].instruction;
+  document.getElementById("messageInput").value = "خلينا نستكشف: " + prompts[type].title;
+  document.getElementById("chatForm").requestSubmit();
+}
+
+function enableMemory() {
+  app.memoryEnabled = true;
+  localStorage.setItem("maaman_memory_enabled","true");
+  closeCustomPanel();
+  toast("تفعّلت الذاكرة 🤍");
+}
+
+function disableMemory() {
+  app.memoryEnabled = false;
+  localStorage.setItem("maaman_memory_enabled","false");
+  closeCustomPanel();
+  toast("توقّف استخدام الذاكرة.");
+}
+
+function openMemoryPanel() {
+  const content = document.createElement("div");
+  const intro = document.createElement("p");
+  intro.textContent = app.memoryEnabled ? "هذي الأشياء اللي اخترتِ حفظها." : "الذاكرة اختيارية.";
+  content.appendChild(intro);
+
+  const toggle = document.createElement("button");
+  toggle.className = "primary";
+  toggle.textContent = app.memoryEnabled ? "إيقاف الذاكرة" : "تفعيل الذاكرة";
+  toggle.onclick = () => app.memoryEnabled ? disableMemory() : enableMemory();
+  content.appendChild(toggle);
+
+  const list = document.createElement("div");
+  list.id = "memoryList";
+  list.style.cssText = "display:grid;gap:10px;margin:12px 0";
+  content.appendChild(list);
+
+  openCustomPanel("ذاكرتي في مَأْمَن", "", [{label:"إغلاق", action:() => {}}], content);
+  renderMemoryPanel();
+}
+
+function renderMemoryPanel() {
+  const list = document.getElementById("memoryList");
+  if (!list) return;
+  list.replaceChildren();
+  if (!app.memories.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "ما فيه ذكريات محفوظة للحين.";
+    list.appendChild(empty);
+    return;
+  }
+  app.memories.forEach(memory => {
+    const row = document.createElement("div");
+    row.style.cssText = "border:1px solid var(--border);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:start";
+    const text = document.createElement("span");
+    text.textContent = memory.text;
+    text.style.flex = "1";
+    row.appendChild(text);
+    list.appendChild(row);
+  });
+}
+
+function openCustomPanel(title, description, actions, bodyContent) {
+  closeCustomPanel();
+  const backdrop = document.createElement("div");
+  backdrop.id = "customPanel";
+  backdrop.className = "modal-backdrop show";
+  backdrop.style.zIndex = "30";
+
+  const panel = document.createElement("div");
+  panel.className = "modal";
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+  panel.appendChild(heading);
+  if (description) {
+    const p = document.createElement("p");
+    p.textContent = description;
+    panel.appendChild(p);
+  }
+  if (bodyContent) panel.appendChild(bodyContent);
+
+  const buttons = document.createElement("div");
+  buttons.className = "modal-actions";
+  buttons.style.marginTop = "16px";
+  (actions || []).forEach(item => {
+    const button = document.createElement("button");
+    button.className = item.primary ? "primary" : "secondary";
+    button.textContent = item.label;
+    button.onclick = () => { closeCustomPanel(); if (item.action) item.action(); };
+    buttons.appendChild(button);
+  });
+  panel.appendChild(buttons);
+  backdrop.appendChild(panel);
+  document.body.appendChild(backdrop);
+}
+
+function closeCustomPanel() {
+  const panel = document.getElementById("customPanel");
+  if (panel) panel.remove();
+}
+
+function addBrainTools() {
+  const quick = document.querySelector(".quick-actions");
+  if (!quick || document.getElementById("memoryToolButton")) return;
+  const tools = [
+    ["memoryToolButton","🧠 ذاكرتي",openMemoryPanel],
+    ["mapToolButton","🪢 خريطة الشعور",() => requestReflection("map")],
+    ["patternToolButton","💭 شيء لاحظته",() => requestReflection("patterns")],
+    ["growthToolButton","🌱 شوف وش تغيّر",() => requestReflection("growth")],
+    ["winsToolButton","✨ انتصاراتي الصغيرة",() => requestReflection("wins")]
+  ];
+  tools.forEach(([id,label,action]) => {
+    const button = document.createElement("button");
+    button.id = id; button.type = "button"; button.textContent = label; button.onclick = action;
+    quick.appendChild(button);
+  });
+}
+addBrainTools();
+
+document.getElementById("chatForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const input = document.getElementById("messageInput");
+  const text = input.value.trim();
+  if (!text || app.busy) return;
+  input.value = "";
+  addMessage("user",text);
+  app.sessionNotes.push({role:"user",text});
+  await respond(text);
+});
+
+document.getElementById("messageInput").addEventListener("keydown", event => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    document.getElementById("chatForm").requestSubmit();
+  }
+});
+
+function buildGeminiContents() {
+  const normalized = [];
+  for (const item of app.history) {
+    if (!item || !["user", "model"].includes(item.role)) continue;
+    const text = (item.parts || []).map(p => p.text || "").join("").trim();
+    if (!text) continue;
+    if (normalized.length === 0 && item.role !== "user") continue;
+    const previous = normalized[normalized.length - 1];
+    if (previous && previous.role === item.role) {
+      previous.parts[0].text += "\n\n" + text;
+    } else {
+      normalized.push({ role: item.role, parts: [{text}] });
+    }
+  }
+  const contents = normalized.slice(-24);
+  while (contents.length && contents[0].role !== "user") {
+    contents.shift();
+  }
+  return contents;
+}
+
+function getMemoryContext() {
+  if (!app.memoryEnabled || !app.memories.length) return "لا توجد ذكريات شخصية متاحة للاستخدام.";
+  return app.memories.map((item,index) => `${index + 1}. ${item.text}`).join("\n");
+}
+
+function buildSystemPrompt() {
+  const info = needInfo[app.mode] || needInfo.unsure;
+  return `أنت "مَأْمَن"، رفيق رقمي عربي للتفكير والفضفضة وفهم الذات والرفاه النفسي.
+احتياج المستخدم الحالي: ${info.title}. وصف هذا الاحتياج: ${info.copy}
+قواعد المحادثة: استمع بعمق، استخدم لغة احتمالية، لا تشخص نفسياً، ولا تطرح أكثر من سؤال واحد.
+الذكريات المسموحة:\n${getMemoryContext()}`;
+}
+
+async function respond(userText) {
+  app.busy = true;
+  setVoiceState("thinking","لحظة… خليني أفهمك.");
+  const sendButton = document.querySelector(".send-btn");
+  sendButton.disabled = true;
+
+  try {
+    const answer = await askGemini();
+    app.lastAssistantAnswer = answer;
+    addMessage("ai",answer);
+    app.sessionNotes.push({role:"ai",text:answer});
+    app.correcting = false;
+    app.requestedReflection = "";
+    speak(answer);
+  } catch (error) {
+    toast("تعذّر الاتصال بالذكاء الاصطناعي؛ رد احتياطي مؤقت 🤍");
+    const fallback = localResponse(userText);
+    addMessage("ai",fallback);
+    speak(fallback);
+  } finally {
+    app.busy = false;
+    sendButton.disabled = false;
+    setVoiceState("idle","أنا هنا، كمّلي على راحتك.");
+  }
+}
+
+function localResponse(text) {
+  return "أنا معك. كمّلي على راحتك، وش أكثر شيء مأثر عليك هالحظة؟";
+}
+
+/* 🔒 الاتصال الآمن بالخادم السحابي */
+async function askGemini() {
+  const contents = buildGeminiContents();
+  if (!contents.length) throw new Error("No valid history");
+
+  if (app.apiKey) {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + encodeURIComponent(app.apiKey), {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        systemInstruction:{parts:[{text:buildSystemPrompt()}]},
+        contents,
+        generationConfig:{temperature:.75,maxOutputTokens:500}
+      })
+    });
+    if (!response.ok) throw new Error("Custom key failed");
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
+  }
+
+  const response = await fetch("/api/chat", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      contents,
+      systemInstruction:{parts:[{text:buildSystemPrompt()}]}
+    })
+  });
+
+  if (!response.ok) throw new Error("Secure server error");
+  const data = await response.json();
+  return data.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("").trim();
+}
+
+function endSession() {
+  showPage("ending");
+}
+
+function saveTakeaway() {
+  const field = document.getElementById("takeaway");
+  const value = field.value.trim();
+  if (!value) { toast("اكتبي جملة تبغين تحتفظين فيها أول 🤍"); return; }
+  toast("حُفظ أثر الجلسة على هذا الجهاز 🤍");
+}
+
+function toggleNight() {
+  app.night = !app.night;
+  document.body.classList.toggle("night",app.night);
+  localStorage.setItem(STORAGE.night,String(app.night));
+}
+
+function openApiModal() { document.getElementById("apiModal").classList.add("show"); }
+function closeApiModal() { document.getElementById("apiModal").classList.remove("show"); }
+function saveApiKey() {
+  const key = document.getElementById("apiKey").value.trim();
+  if (!key) return;
+  app.apiKey = key;
+  localStorage.setItem(STORAGE.apiKey,key);
+  closeApiModal();
+  toast("انحفظ المفتاح الشخصي.");
+}
+function removeApiKey() {
+  app.apiKey = "";
+  localStorage.removeItem(STORAGE.apiKey);
+  document.getElementById("apiModal").classList.remove("show");
+  toast("تم حذف المفتاح الشخصي والعودة للخادم الآمن.");
+}
+
+document.getElementById("contactForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  toast("تم إرسال رسالتك بسلام 🤍");
+});
+
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 3200);
+}
+
+updateTimeGreeting();
+</script>
+</body>
+</html>
